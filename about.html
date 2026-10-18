@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>時短貯金 — 機能紹介</title>
+<meta name="description" content="日常で効率化したことをメモして、浮いた時間を貯金のように積み上げるアプリ。以前と今の所要時間と頻度から節約時間を自動計算し、累計・月別グラフ・称号で達成感を味わえます。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="時短貯金 — 機能紹介">
+<meta property="og:image" content="https://__APP_HOST__/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c1: #f39c12;
+    --c2: #e67e22;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    background: #1a1a1a;
+    color: #ececec;
+    line-height: 1.7;
+  }
+  a { color: inherit; text-decoration: none; }
+  .topbar {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 24px 20px 0;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #9a9a9a;
+    transition: color .15s ease;
+  }
+  .back-link:hover { color: #fff; }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--c1);
+    margin: 24px 20px 0;
+    border-radius: 24px;
+    padding: 64px 24px;
+    text-align: center;
+  }
+  .hero::before, .hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: #ffffff;
+    opacity: 0.07;
+    filter: blur(10px);
+  }
+  .hero::before { width: 240px; height: 240px; top: -80px; left: -60px; }
+  .hero::after { width: 300px; height: 300px; bottom: -120px; right: -80px; }
+  .badge {
+    position: relative;
+    width: 128px;
+    height: 128px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--c1);
+    box-shadow: 0 0 0 14px rgba(255,255,255,0.14);
+  }
+  .category-pill {
+    position: relative;
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    position: relative;
+    margin: 0 0 12px;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 800;
+    color: #fff;
+  }
+  .hero p.tagline {
+    position: relative;
+    margin: 0 auto 32px;
+    max-width: 520px;
+    font-size: 17px;
+    color: rgba(255,255,255,0.88);
+  }
+  .cta {
+    position: relative;
+    display: inline-block;
+    background: #fff;
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 14px 36px;
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    transition: transform .15s ease;
+  }
+  .cta:hover { transform: translateY(-2px); }
+
+  .features {
+    max-width: 880px;
+    margin: 56px auto 0;
+    padding: 0 20px;
+  }
+  .features h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 24px;
+    color: #fff;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .feature-card {
+    background: #211a12;
+    border: 1px solid #3d2f1c;
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .feature-icon {
+    color: var(--c1);
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+  .feature-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #fff;
+  }
+  .feature-desc {
+    font-size: 14px;
+    color: #cbbfae;
+    margin: 0;
+  }
+
+  .steps {
+    max-width: 880px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+  }
+  .steps h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 20px;
+    color: #fff;
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-top: 1px solid #3d2f1c;
+  }
+  .step:first-of-type { border-top: 0; }
+  .step-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--c1);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step p { margin: 0; font-size: 14px; color: #d6ccbe; }
+  .step strong { color: #fff; }
+
+  .note {
+    max-width: 880px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+    font-size: 13px;
+    color: #9a9184;
+  }
+
+  .footer-cta {
+    max-width: 880px;
+    margin: 56px auto 0;
+    padding: 0 20px 64px;
+    text-align: center;
+  }
+  .footer-cta .cta {
+    background: var(--c1);
+    color: #fff;
+    box-shadow: none;
+  }
+  .footer-links {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #9a9184;
+  }
+  .footer-links a { color: #9a9a9a; }
+  .footer-links a:hover { color: #fff; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="back-link" href="https://apps.yuji-nakamura.com/">← アプリ一覧に戻る</a>
+  </div>
+  <section class="hero">
+    <span class="category-pill">暮らし</span>
+    <div class="badge"><svg width="72" height="72" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="31.15" cy="37.1" rx="16.15" ry="11.05"/><path d="M46.45 33.7 H49.85 Q51.55 33.7 51.55 35.4 V38.8 Q51.55 40.5 49.85 40.5 H46.45"/><path d="M36.25 26.9 L39.65 20.95 L43.05 28.18"/><path d="M21.8 46.45 V51.55"/><path d="M38.8 46.45 V51.55"/><path d="M15 34.55 Q11.6 33.7 12.03 30.3"/><circle cx="40.5" cy="32.85" r="1.4" fill="currentColor" stroke="none"/><path d="M26.05 28.6 H32.85"/><circle cx="29.45" cy="15" r="5.95"/><path d="M29.45 12.45 V15 H32"/></svg></div>
+    <h1>時短貯金</h1>
+    <p class="tagline">「前は20分かかっていたのが、5分になった」。そんな日常の効率化をメモするだけで、浮いた時間が貯金のように毎日自動で貯まっていくアプリです。どれだけラクになったかが数字で見えるから、工夫するのがもっと楽しくなります。</p>
+    <a class="cta" href="https://__APP_HOST__">アプリを使ってみる →</a>
+  </section>
+  <section class="features">
+    <h2>できること</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="10" width="36" height="46" rx="5"/><path d="M22 22 H42"/><path d="M22 32 H42"/><path d="M22 42 H34"/></svg></div>
+        <h3 class="feature-title">効率化をかんたんメモ</h3>
+        <p class="feature-desc">何を工夫したか、前と今の所要時間、どのくらいの頻度か、始めた日を入れるだけ。よくある効率化の例から選んで入力することもできます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="34" r="20"/><path d="M32 22 V34 L40 40"/><path d="M26 8 H38"/></svg></div>
+        <h3 class="feature-title">浮いた時間を自動で計算</h3>
+        <p class="feature-desc">「1回あたりの短縮時間 × 頻度」で、始めた日から今日までに浮いた時間を自動計算。秒単位で増えていく貯金と、1年続けた場合の見込みも表示します。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 54 H54"/><path d="M16 54 V38"/><path d="M28 54 V26"/><path d="M40 54 V32"/><path d="M52 54 V16"/></svg></div>
+        <h3 class="feature-title">月別グラフとカテゴリ別</h3>
+        <p class="feature-desc">月ごとに浮いた時間のグラフや、家事・仕事・移動などカテゴリ別の内訳でふりかえり。時給を入れれば「◯円ぶん」でも見られます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10 H44 V26 Q44 38 32 38 Q20 38 20 26 Z"/><path d="M20 14 H12 Q12 26 21 28"/><path d="M44 14 H52 Q52 26 43 28"/><path d="M32 38 V46"/><path d="M22 54 H42 L40 46 H24 Z"/></svg></div>
+        <h3 class="feature-title">称号と言い換えで達成感</h3>
+        <p class="feature-desc">累計1時間・10時間・100時間…と貯まるごとに称号でお祝い。「映画◯本ぶん」「休日◯日ぶん」など身近なものに言い換えて、効果を実感できます。</p>
+      </div>
+    </div>
+  </section>
+  <section class="steps">
+    <h2>使い方</h2>
+    <div class="step">
+      <span class="step-num">1</span>
+      <p><strong>Googleでログイン</strong>：記録はあなた専用の領域に保存され、スマホとPCで同じデータを見られます。</p>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <p><strong>効率化を記録</strong>：右下の「＋」から、工夫したことと「前は◯分 → 今は◯分」、頻度を入力します。少し前に始めたことも、始めた日を入れればその日からの分が貯まります。</p>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <p><strong>貯まっていくのを眺める</strong>：「貯金」の画面で、これまでに浮いた時間と「よく効いている効率化」を確認できます。</p>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <p><strong>やめたら「おわりにする」</strong>：使わなくなった効率化はその日で貯金が止まり、それまでの分は残ります。</p>
+    </div>
+  </section>
+  <p class="note">※ 浮いた時間は、入力した頻度から計算した目安です。毎日きっちり記録しなくても、続けている間は自動で貯まっていきます。</p>
+  <section class="footer-cta">
+    <a class="cta" href="https://__APP_HOST__">今すぐ使ってみる →</a>
+    <p class="footer-links"><a href="https://apps.yuji-nakamura.com/">他のアプリも見る</a></p>
+  </section>
+</body>
+</html>

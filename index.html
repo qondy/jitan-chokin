@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J41Z0NHW20"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J41Z0NHW20', { 'app_name': 'jitan-chokin' });
+  </script>
+
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f39c12">
+  <title>時短貯金</title>
+  <meta name="description" content="日常で効率化したことをメモして、浮いた時間を貯金のように積み上げるアプリ。以前と今の所要時間・頻度から節約時間を自動計算し、累計・月別グラフ・称号で達成感を味わえます。">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <meta property="og:title" content="時短貯金">
+  <meta property="og:description" content="効率化したことをメモするだけで、浮いた時間がどんどん貯まる。累計・月別グラフ・称号で、効率化の達成感を味わおう。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://__APP_HOST__/ogp.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://__APP_HOST__/ogp.png">
+</head>
+<body>
+
+  <!-- ログイン画面 -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <span class="login-card__logo"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="31.15" cy="37.1" rx="16.15" ry="11.05"/><path d="M46.45 33.7 H49.85 Q51.55 33.7 51.55 35.4 V38.8 Q51.55 40.5 49.85 40.5 H46.45"/><path d="M36.25 26.9 L39.65 20.95 L43.05 28.18"/><path d="M21.8 46.45 V51.55"/><path d="M38.8 46.45 V51.55"/><path d="M15 34.55 Q11.6 33.7 12.03 30.3"/><circle cx="40.5" cy="32.85" r="1.4" fill="currentColor" stroke="none"/><path d="M26.05 28.6 H32.85"/><circle cx="29.45" cy="15" r="5.95"/><path d="M29.45 12.45 V15 H32"/></svg></span>
+      <h1 class="login-card__title">時短貯金</h1>
+      <p class="login-card__tagline">効率化したことを、メモするだけ。<br>浮いた時間が、貯金のように貯まっていく。</p>
+      <button id="btn-google-login" class="google-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Googleでログイン
+      </button>
+    </div>
+  </div>
+
+  <div id="app" class="hidden">
+    <header class="app-header">
+      <span class="app-header__brand"><svg width="28" height="28" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-7px"><ellipse cx="31.15" cy="37.1" rx="16.15" ry="11.05"/><path d="M46.45 33.7 H49.85 Q51.55 33.7 51.55 35.4 V38.8 Q51.55 40.5 49.85 40.5 H46.45"/><path d="M36.25 26.9 L39.65 20.95 L43.05 28.18"/><path d="M21.8 46.45 V51.55"/><path d="M38.8 46.45 V51.55"/><path d="M15 34.55 Q11.6 33.7 12.03 30.3"/><circle cx="40.5" cy="32.85" r="1.4" fill="currentColor" stroke="none"/><path d="M26.05 28.6 H32.85"/><circle cx="29.45" cy="15" r="5.95"/><path d="M29.45 12.45 V15 H32"/></svg> 時短貯金</span>
+      <nav class="app-header__nav">
+        <a href="about.html" class="app-header__about-link">アプリについて</a>
+        <div id="user-info" class="app-header__user hidden">
+          <img id="user-avatar" class="app-header__avatar" src="" alt="" />
+          <span id="user-name" class="app-header__name"></span>
+          <button id="btn-logout" class="btn btn--ghost btn--sm">ログアウト</button>
+        </div>
+      </nav>
+    </header>
+
+    <div class="tabs-bar">
+      <div class="tabs" role="tablist">
+        <button type="button" class="tabs__btn is-active" role="tab" data-tab="home" aria-selected="true">貯金</button>
+        <button type="button" class="tabs__btn" role="tab" data-tab="list" aria-selected="false">効率化リスト<span class="tabs__count" id="count-list"></span></button>
+        <button type="button" class="tabs__btn" role="tab" data-tab="review" aria-selected="false">ふりかえり</button>
+      </div>
+    </div>
+
+    <main class="app-main">
+
+      <!-- 貯金 -->
+      <section class="panel" data-panel="home">
+        <div id="home-loading" class="loading">読み込み中…</div>
+
+        <div id="home-empty" class="empty-state card-surface hidden">
+          <p class="empty-state__lead">まだ効率化の記録がありません。</p>
+          <p>「前は20分かかっていたのが、5分になった」<br>そんな小さな工夫を1つ記録してみましょう。<br>浮いた時間が、今日から自動で貯まっていきます。</p>
+          <button type="button" id="btn-first" class="btn btn--primary btn--lg">最初の効率化を記録する</button>
+        </div>
+
+        <div id="home-body" class="hidden">
+          <div class="bank">
+            <p class="bank__label">これまでに浮いた時間</p>
+            <p class="bank__total" id="bank-total" aria-live="off"></p>
+            <p class="bank__yen hidden" id="bank-yen"></p>
+            <div class="bank__pace">
+              <div class="bank__pace-item"><span class="bank__pace-label">1日あたり</span><span class="bank__pace-value" id="bank-daily"></span></div>
+              <div class="bank__pace-item"><span class="bank__pace-label">1年続けると</span><span class="bank__pace-value" id="bank-yearly"></span></div>
+            </div>
+          </div>
+
+          <div class="card-surface block">
+            <h2 class="block__title">浮いた時間で、できること</h2>
+            <div id="equivalents" class="equivalents"></div>
+          </div>
+
+          <div class="card-surface block">
+            <div class="rank-now">
+              <div>
+                <p class="rank-now__label">いまの称号</p>
+                <p class="rank-now__title" id="rank-title"></p>
+              </div>
+              <button type="button" id="btn-to-review" class="btn btn--ghost btn--sm">称号一覧</button>
+            </div>
+            <div class="meter"><div class="meter__fill" id="rank-fill"></div></div>
+            <p class="meter__text" id="rank-next"></p>
+          </div>
+
+          <div class="card-surface block">
+            <h2 class="block__title">よく効いている効率化</h2>
+            <ol id="top-list" class="top-list"></ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- 効率化リスト -->
+      <section class="panel hidden" data-panel="list">
+        <div class="section__head">
+          <h2 class="section__title">効率化リスト</h2>
+          <p class="section__desc">やめた・使わなくなった効率化は「おわりにする」と、その日で貯金が止まります（それまでの分は残ります）。</p>
+        </div>
+        <div id="list-filter" class="segmented segmented--filter" role="radiogroup" aria-label="表示する効率化"></div>
+        <div id="kaizen-list" class="kaizen-list"></div>
+        <p id="list-empty" class="empty-state hidden"></p>
+      </section>
+
+      <!-- ふりかえり -->
+      <section class="panel hidden" data-panel="review">
+        <div class="stat-row">
+          <div class="stat-card"><div class="stat-card__value" id="stat-total">0分</div><div class="stat-card__label">累計で浮いた時間</div></div>
+          <div class="stat-card"><div class="stat-card__value" id="stat-month">0分</div><div class="stat-card__label">今月浮いた時間</div></div>
+          <div class="stat-card"><div class="stat-card__value" id="stat-count">0</div><div class="stat-card__label">続けている効率化</div></div>
+          <button type="button" id="btn-wage" class="stat-card stat-card--button">
+            <div class="stat-card__value" id="stat-yen">設定する</div>
+            <div class="stat-card__label" id="stat-yen-label">時給換算（任意）</div>
+          </button>
+        </div>
+
+        <div class="card-surface block">
+          <h2 class="block__title">月ごとに浮いた時間</h2>
+          <div id="month-chart" class="month-chart"></div>
+        </div>
+
+        <div class="card-surface block">
+          <h2 class="block__title">カテゴリ別</h2>
+          <div id="category-list" class="category-list"></div>
+        </div>
+
+        <div class="card-surface block">
+          <h2 class="block__title">称号</h2>
+          <ul id="milestone-list" class="milestone-list"></ul>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 Yuji Nakamura. All rights reserved.</p>
+      <p><a href="https://apps.yuji-nakamura.com/" target="_blank" rel="noopener">他のアプリを見る →</a></p>
+    </footer>
+
+    <a href="about.html" class="about-btn"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="32" r="20"/><circle cx="32" cy="22" r="1.5" fill="currentColor" stroke="none"/><line x1="32" y1="30" x2="32" y2="44"/></svg> アプリについて</a>
+    <button type="button" id="btn-fab" class="fab" aria-label="効率化を記録する"><svg width="24" height="24" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" aria-hidden="true"><path d="M32 12 V52"/><path d="M12 32 H52"/></svg></button>
+    <button id="feedback-btn" class="feedback-btn" aria-label="ご意見・ご要望"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-6px"><rect x="8" y="14" width="48" height="30" rx="8"/><path d="M22 44 L14 54 V44"/></svg> ご意見</button>
+  </div>
+
+  <!-- 効率化の追加・編集 -->
+  <div id="kaizen-modal-overlay" class="dialog-overlay">
+    <form id="kaizen-form" class="modal" novalidate>
+      <div class="modal__head">
+        <div class="modal__title" id="kaizen-modal-title">効率化を記録する</div>
+        <button type="button" id="btn-kaizen-close" class="modal__close" aria-label="閉じる">&times;</button>
+      </div>
+
+      <div id="examples-box" class="field">
+        <span class="field__label">例から入力<span class="field__hint">タップすると下に入ります</span></span>
+        <div id="examples" class="chips chips--scroll"></div>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="input-title">何を効率化した？</label>
+        <input type="text" id="input-title" maxlength="60" placeholder="例：洗濯物をたたまず、ハンガーのまま収納" />
+      </div>
+
+      <div class="field">
+        <span class="field__label">カテゴリ</span>
+        <div id="category-chips" class="chips" role="radiogroup" aria-label="カテゴリ"></div>
+      </div>
+
+      <div class="field">
+        <span class="field__label">1回あたりの所要時間</span>
+        <div class="before-after">
+          <label class="before-after__box">
+            <span class="before-after__label">前は</span>
+            <span class="number-unit"><input type="number" id="input-before" min="0" max="1440" step="0.5" inputmode="decimal" /><span>分</span></span>
+          </label>
+          <span class="before-after__arrow" aria-hidden="true">→</span>
+          <label class="before-after__box">
+            <span class="before-after__label">今は</span>
+            <span class="number-unit"><input type="number" id="input-after" min="0" max="1440" step="0.5" inputmode="decimal" /><span>分</span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="field__label">どのくらいの頻度？</span>
+        <div class="freq">
+          <div id="freq-unit" class="segmented" role="radiogroup" aria-label="頻度の単位"></div>
+          <span class="number-unit"><input type="number" id="input-freq" min="0.5" max="100" step="0.5" inputmode="decimal" /><span>回</span></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="input-start">始めた日<span class="field__hint">この日から貯金が始まります</span></label>
+        <input type="date" id="input-start" />
+      </div>
+
+      <div class="field hidden" id="end-field">
+        <label class="field__label" for="input-end">おわりにした日<span class="field__hint">続けているなら空欄</span></label>
+        <input type="date" id="input-end" />
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="input-memo">メモ<span class="field__hint">任意</span></label>
+        <textarea id="input-memo" rows="2" maxlength="300" placeholder="工夫したポイント、きっかけなど"></textarea>
+      </div>
+
+      <div class="preview" id="kaizen-preview" aria-live="polite"></div>
+
+      <div class="modal__actions">
+        <button type="button" id="btn-kaizen-delete" class="btn btn--ghost is-danger modal__delete hidden">削除</button>
+        <button type="button" id="btn-kaizen-cancel" class="btn btn--ghost">キャンセル</button>
+        <button type="submit" id="btn-kaizen-submit" class="btn btn--primary">貯金する</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 時給の設定 -->
+  <div id="wage-modal-overlay" class="dialog-overlay">
+    <form id="wage-form" class="modal modal--narrow" novalidate>
+      <div class="modal__head">
+        <div class="modal__title">時給換算の設定</div>
+        <button type="button" id="btn-wage-close" class="modal__close" aria-label="閉じる">&times;</button>
+      </div>
+      <p class="modal__sub">浮いた時間を「◯円ぶん」でも表示します。空欄にすると表示しません。</p>
+      <div class="field">
+        <label class="field__label" for="input-wage">あなたの時給</label>
+        <span class="number-unit number-unit--wide"><input type="number" id="input-wage" min="1" max="1000000" step="1" inputmode="numeric" placeholder="例：1500" /><span>円</span></span>
+      </div>
+      <div class="modal__actions">
+        <button type="button" id="btn-wage-cancel" class="btn btn--ghost">キャンセル</button>
+        <button type="submit" id="btn-wage-submit" class="btn btn--primary">保存する</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 称号達成のお祝い -->
+  <div id="celebrate-overlay" class="dialog-overlay">
+    <div class="dialog celebrate" role="alertdialog" aria-modal="true" aria-labelledby="celebrate-title">
+      <span class="celebrate__icon"><svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10 H44 V26 Q44 38 32 38 Q20 38 20 26 Z"/><path d="M20 14 H12 Q12 26 21 28"/><path d="M44 14 H52 Q52 26 43 28"/><path d="M32 38 V46"/><path d="M22 54 H42 L40 46 H24 Z"/></svg></span>
+      <p class="celebrate__sub" id="celebrate-sub"></p>
+      <div class="celebrate__title" id="celebrate-title"></div>
+      <p class="celebrate__text" id="celebrate-text"></p>
+      <button type="button" id="btn-celebrate-ok" class="btn btn--primary btn--block">やったね！</button>
+    </div>
+  </div>
+
+  <!-- 削除確認ダイアログ（カスタムUI） -->
+  <div id="confirm-dialog-overlay" class="dialog-overlay">
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
+      <div class="dialog__title" id="confirm-dialog-title">削除しますか？</div>
+      <div class="dialog__text" id="confirm-dialog-text">削除すると元に戻せません。</div>
+      <div class="dialog__actions">
+        <button type="button" id="btn-confirm-cancel" class="btn btn--ghost">キャンセル</button>
+        <button type="button" id="btn-confirm-ok" class="btn btn--danger">削除する</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 要望送信モーダル -->
+  <div id="feedback-modal-overlay" class="dialog-overlay">
+    <div class="modal">
+      <div class="modal__head">
+        <div class="modal__title">ご意見・ご要望</div>
+        <button type="button" id="btn-feedback-close" class="modal__close" aria-label="閉じる">&times;</button>
+      </div>
+      <textarea id="input-feedback-message" rows="5" maxlength="2000" placeholder="ご意見・ご要望・バグ報告など、なんでもどうぞ"></textarea>
+      <div class="modal__actions">
+        <button type="button" id="btn-feedback-send" class="btn btn--primary">送信する</button>
+      </div>
+      <p class="modal__note">送信内容は開発者に届きます。個人情報は入力しないでください。</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
