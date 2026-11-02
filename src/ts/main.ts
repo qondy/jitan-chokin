@@ -14,6 +14,9 @@ import {
   milestoneOf, equivalentsOf, formatDuration, formatSmall, formatYen, isActive,
 } from './stats';
 import { Category, FreqUnit, Kaizen, KaizenInput, Profile } from './types';
+import { initClickTracking } from './analytics';
+
+initClickTracking();
 
 // ============================================================
 // DOM refs
